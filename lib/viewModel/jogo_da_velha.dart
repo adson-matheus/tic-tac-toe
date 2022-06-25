@@ -18,12 +18,43 @@ class JogoDaVelha extends ChangeNotifier {
 
   void marcar(int posicao) {
     if (instance.marcado[posicao] == false) {
+      //marca no tabuleiro e verifica se ganhou
       instance.vez == 0
           ? instance.valores[posicao] = 'X'
           : instance.valores[posicao] = 'O';
+      verificaSeGanhou(instance.valores, instance.vez)
+          ? print('ganhou')
+          : print('');
+
+      // muda a vez do jogador
       instance.vez = instance.vez == 0 ? 1 : 0;
+
+      // aquela posicao do tabuleiro foi marcada
       instance.marcado[posicao] = true;
       notifyListeners();
     }
   }
+}
+
+bool verificaSeGanhou(List<String> valores, vez) {
+  final linhasVencedoras = <List>[
+    [valores[0], valores[1], valores[2]],
+    [valores[3], valores[4], valores[5]],
+    [valores[6], valores[7], valores[8]],
+    [valores[0], valores[3], valores[6]],
+    [valores[1], valores[4], valores[7]],
+    [valores[2], valores[5], valores[8]],
+    [valores[0], valores[4], valores[8]],
+    [valores[2], valores[4], valores[6]],
+  ];
+  for (var linha in linhasVencedoras) {
+    final ganhou = vez == 0
+        ? linha.every((elemento) => elemento == 'X')
+        : linha.every((elemento) => elemento == 'O');
+
+    if (ganhou) {
+      return true;
+    }
+  }
+  return false;
 }
