@@ -23,7 +23,7 @@ class JogoDaVelha extends ChangeNotifier {
           ? instance.valores[posicao] = 'X'
           : instance.valores[posicao] = 'O';
       verificaSeGanhou(instance.valores, instance.vez)
-          ? print('ganhou')
+          ? print('ganhou') //pausa a execucao aqui
           : print('');
 
       // muda a vez do jogador
@@ -31,8 +31,16 @@ class JogoDaVelha extends ChangeNotifier {
 
       // aquela posicao do tabuleiro foi marcada
       instance.marcado[posicao] = true;
+      verificaSeAcabou()
+          ? print("acabou") //pausa a execucao aqui
+          : print("não acabou");
       notifyListeners();
     }
+  }
+
+  bool verificaSeAcabou() {
+    final bool acabou = instance.marcado.every((elemento) => elemento == true);
+    return acabou;
   }
 }
 
