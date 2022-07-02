@@ -26,11 +26,7 @@ class _TabuleiroState extends State<Tabuleiro> {
             const Text(''),
             Center(
               child: Text(
-                  JogoDaVelha.instance.venceu == false
-                      ? JogoDaVelha.instance.vez == 0
-                          ? 'Vez do jogador 0'
-                          : 'Vez do jogador 1'
-                      : 'Vencedor: Jogador ${JogoDaVelha.instance.vez}',
+                JogoDaVelha.instance.printa(),
                   style: const TextStyle(
                     fontSize: 28.0,
                     fontWeight: FontWeight.bold,

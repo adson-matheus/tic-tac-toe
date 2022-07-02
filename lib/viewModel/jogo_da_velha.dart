@@ -4,6 +4,7 @@ class JogoDaVelha extends ChangeNotifier {
   static JogoDaVelha instance = JogoDaVelha();
   int vez = 0;
   bool venceu = false;
+  bool terminou = false;
 
   List<String> valores = ['', '', '', '', '', '', '', '', ''];
   List<bool> marcado = [
@@ -18,17 +19,42 @@ class JogoDaVelha extends ChangeNotifier {
     false,
   ];
 
-  void marcar(int posicao) {
-    if (instance.marcado[posicao] == false) {
-      instance.vez == 0
-          ? instance.valores[posicao] = 'X'
-          : instance.valores[posicao] = 'O';
-      vencedor();
-      instance.vez = instance.vez == 0 ? 1 : 0;
-      instance.marcado[posicao] = true;
-      
-      notifyListeners();
+  String printa() {
+  
+    if (!instance.venceu) {
+      if (instance.verificaSeAcabou()) {
+        return 'Empate!';
+      }
+      else if (instance.vez == 0) {
+        return 'Vez do jogador 1';
+      }
+      else if (instance.vez == 1) {
+        return 'Vez do jogador 0';
+      }
+    } else {
+      return 'Vencedor: Jogador ${instance.vez}';
     }
+    return '';
+  }
+
+  void marcar(int posicao) {
+    if (!instance.terminou && !instance.verificaSeAcabou()) {
+      if (instance.marcado[posicao] == false) {
+        instance.vez == 0
+            ? instance.valores[posicao] = 'X'
+            : instance.valores[posicao] = 'O';
+
+        instance.vez = instance.vez == 0 ? 1 : 0;
+        instance.marcado[posicao] = true;
+        vencedor();
+        notifyListeners();
+      }
+    }
+  }
+
+  bool verificaSeAcabou() {
+    final bool acabou = instance.marcado.every((elemento) => elemento == true);
+    return acabou;
   }
 
   void vencedor() {
@@ -48,6 +74,7 @@ class JogoDaVelha extends ChangeNotifier {
           (instance.valores[linha[0]] == instance.valores[linha[2]] &&
               instance.valores[linha[0]] != '')) {
         instance.venceu = true;
+        instance.terminou = true;
         break;
       }
     }
