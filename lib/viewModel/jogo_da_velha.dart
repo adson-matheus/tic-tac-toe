@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tic_tac_toe/viewModel/snapshot.dart';
+import 'package:tic_tac_toe/viewModel/store.dart';
 
 class JogoDaVelha extends ChangeNotifier {
   static JogoDaVelha instance = JogoDaVelha();
@@ -19,6 +21,9 @@ class JogoDaVelha extends ChangeNotifier {
     false,
   ];
 
+  SnapShot createSnapshot(){
+    return SnapShot(vez: instance.vez, venceu: instance.venceu, terminou: instance.terminou, marcado: instance.marcado, valores: instance.valores);
+  }
   String printa() {
   
     if (!instance.venceu) {
@@ -46,6 +51,7 @@ class JogoDaVelha extends ChangeNotifier {
 
         instance.vez = instance.vez == 0 ? 1 : 0;
         instance.marcado[posicao] = true;
+        Store.instance.makeBackup();
         vencedor();
         notifyListeners();
       }
