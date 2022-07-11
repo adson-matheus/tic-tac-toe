@@ -21,19 +21,24 @@ class JogoDaVelha extends ChangeNotifier {
     false,
   ];
 
-  SnapShot createSnapshot(){
-    return SnapShot(vez: instance.vez, venceu: instance.venceu, terminou: instance.terminou, marcado: instance.marcado, valores: instance.valores);
+  SnapShot createSnapshot() {
+    return SnapShot(
+      jogoDaVelha: JogoDaVelha.instance,
+      vez: instance.vez,
+      venceu: instance.venceu,
+      terminou: instance.terminou,
+      marcado: instance.marcado,
+      valores: instance.valores,
+    );
   }
+
   String printa() {
-  
     if (!instance.venceu) {
       if (instance.verificaSeAcabou()) {
         return 'Empate!';
-      }
-      else if (instance.vez == 0) {
+      } else if (instance.vez == 0) {
         return 'Vez do jogador 1';
-      }
-      else if (instance.vez == 1) {
+      } else if (instance.vez == 1) {
         return 'Vez do jogador 0';
       }
     } else {
@@ -43,6 +48,8 @@ class JogoDaVelha extends ChangeNotifier {
   }
 
   void marcar(int posicao) {
+    Store.instance.makeBackup();
+    print(Store.instance.backup!.valores);
     if (!instance.terminou && !instance.verificaSeAcabou()) {
       if (instance.marcado[posicao] == false) {
         instance.vez == 0
@@ -51,11 +58,11 @@ class JogoDaVelha extends ChangeNotifier {
 
         instance.vez = instance.vez == 0 ? 1 : 0;
         instance.marcado[posicao] = true;
-        Store.instance.makeBackup();
         vencedor();
         notifyListeners();
       }
     }
+    // print(Store.instance.backup!.valores);
   }
 
   bool verificaSeAcabou() {
