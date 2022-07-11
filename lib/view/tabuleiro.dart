@@ -4,10 +4,9 @@ import 'package:tic_tac_toe/viewModel/jogo_da_velha.dart';
 import '../viewModel/store.dart';
 import 'button.dart';
 
-
 class Tabuleiro extends StatefulWidget {
   const Tabuleiro({Key? key}) : super(key: key);
-  
+
   @override
   State<Tabuleiro> createState() => _TabuleiroState();
 }
@@ -25,12 +24,13 @@ class _TabuleiroState extends State<Tabuleiro> {
           mainAxisSpacing: 10,
           crossAxisCount: 3,
           children: <Widget>[
-            IconButton(onPressed: (){
-              Store.instance.undo();
-            }, icon: const Icon(Icons.abc)),
+            IconButton(
+                onPressed: () {
+                  Store.instance.undo();
+                },
+                icon: const Icon(Icons.undo)),
             Center(
-              child: Text(
-                JogoDaVelha.instance.printa(),
+              child: Text(JogoDaVelha.instance.printa(),
                   style: const TextStyle(
                     fontSize: 28.0,
                     fontWeight: FontWeight.bold,
